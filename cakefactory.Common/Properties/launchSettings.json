@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "cakefactory.Common": {
+      "commandName": "Project"
+    }
+  }
+}
