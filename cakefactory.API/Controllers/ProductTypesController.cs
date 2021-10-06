@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using cakefactory.API.Data;
+using cakefactory.API.Data.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using cakefactory.API.Data;
-using cakefactory.API.Data.Entities;
 
 namespace cakefactory.API.Controllers
 {
@@ -19,53 +17,52 @@ namespace cakefactory.API.Controllers
             _context = context;
         }
 
-        // GET: ProductTypes
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.ProdcutTypes.ToListAsync());
         }
 
-        // GET: ProductTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var productType = await _context.ProdcutTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (productType == null)
-            {
-                return NotFound();
-            }
-
-            return View(productType);
-        }
-
-        // GET: ProductTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ProductTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description")] ProductType productType)
+        public async Task<IActionResult> Create(ProductType productType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(productType);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(productType);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de producto");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
             }
+
             return View(productType);
         }
 
-        // GET: ProductTypes/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,20 +70,19 @@ namespace cakefactory.API.Controllers
                 return NotFound();
             }
 
-            var productType = await _context.ProdcutTypes.FindAsync(id);
+            ProductType productType = await _context.ProdcutTypes.FindAsync(id);
             if (productType == null)
             {
                 return NotFound();
             }
+
             return View(productType);
         }
 
-        // POST: ProductTypes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description")] ProductType productType)
+        public async Task<IActionResult> Edit(int id, ProductType productType)
         {
             if (id != productType.Id)
             {
@@ -99,24 +95,28 @@ namespace cakefactory.API.Controllers
                 {
                     _context.Update(productType);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException dbUpdateException)
                 {
-                    if (!ProductTypeExists(productType.Id))
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        return NotFound();
+                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de producto");
                     }
                     else
                     {
-                        throw;
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
             }
             return View(productType);
         }
 
-        // GET: ProductTypes/Delete/5
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,26 +124,18 @@ namespace cakefactory.API.Controllers
                 return NotFound();
             }
 
-            var productType = await _context.ProdcutTypes
+            ProductType productType = await _context.ProdcutTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (productType == null)
             {
                 return NotFound();
             }
-
-            return View(productType);
-        }
-
-        // POST: ProductTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var productType = await _context.ProdcutTypes.FindAsync(id);
             _context.ProdcutTypes.Remove(productType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+
         }
+
 
         private bool ProductTypeExists(int id)
         {
