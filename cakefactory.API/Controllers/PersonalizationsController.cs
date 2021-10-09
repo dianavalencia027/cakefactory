@@ -8,19 +8,18 @@ using System.Threading.Tasks;
 
 namespace cakefactory.API.Controllers
 {
-    public class ProductTypesController : Controller
+    public class PersonalizationsController : Controller
     {
         private readonly DataContext _context;
 
-        public ProductTypesController(DataContext context)
+        public PersonalizationsController(DataContext context)
         {
             _context = context;
         }
 
-
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ProductTypes.ToListAsync());
+            return View(await _context.Personalizations.ToListAsync());
         }
 
 
@@ -32,13 +31,13 @@ namespace cakefactory.API.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ProductType productType)
+        public async Task<IActionResult> Create(Personalization personalization)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(productType);
+                    _context.Add(personalization);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -46,7 +45,7 @@ namespace cakefactory.API.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de producto");
+                        ModelState.AddModelError(string.Empty, "Ya existe esta personalización");
                     }
                     else
                     {
@@ -59,7 +58,7 @@ namespace cakefactory.API.Controllers
                 }
             }
 
-            return View(productType);
+            return View(personalization);
         }
 
 
@@ -70,21 +69,21 @@ namespace cakefactory.API.Controllers
                 return NotFound();
             }
 
-            ProductType productType = await _context.ProductTypes.FindAsync(id);
-            if (productType == null)
+            Personalization personalization = await _context.Personalizations.FindAsync(id);
+            if (personalization == null)
             {
                 return NotFound();
             }
 
-            return View(productType);
+            return View(personalization);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, ProductType productType)
+        public async Task<IActionResult> Edit(int id, Personalization personalization)
         {
-            if (id != productType.Id)
+            if (id != personalization.Id)
             {
                 return NotFound();
             }
@@ -93,7 +92,7 @@ namespace cakefactory.API.Controllers
             {
                 try
                 {
-                    _context.Update(productType);
+                    _context.Update(personalization);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -101,7 +100,7 @@ namespace cakefactory.API.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de producto");
+                        ModelState.AddModelError(string.Empty, "Ya existe esta personalización");
                     }
                     else
                     {
@@ -113,7 +112,7 @@ namespace cakefactory.API.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(productType);
+            return View(personalization);
         }
 
 
@@ -124,22 +123,22 @@ namespace cakefactory.API.Controllers
                 return NotFound();
             }
 
-            ProductType productType = await _context.ProductTypes
+            Personalization personalization = await _context.Personalizations
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (productType == null)
+            if (personalization == null)
             {
                 return NotFound();
             }
-            _context.ProductTypes.Remove(productType);
+            _context.Personalizations.Remove(personalization);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
 
         }
 
 
-        private bool ProductTypeExists(int id)
+        private bool PersonalizationExists(int id)
         {
-            return _context.ProductTypes.Any(e => e.Id == id);
+            return _context.Personalizations.Any(e => e.Id == id);
         }
     }
 }

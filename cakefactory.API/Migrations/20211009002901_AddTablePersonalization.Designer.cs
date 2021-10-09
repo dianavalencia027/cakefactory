@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using cakefactory.API.Data;
 
 namespace cakefactory.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211009002901_AddTablePersonalization")]
+    partial class AddTablePersonalization
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,18 +30,10 @@ namespace cakefactory.API.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PersoName")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PersoName")
-                        .IsUnique();
 
                     b.ToTable("Personalizations");
                 });
@@ -61,7 +55,7 @@ namespace cakefactory.API.Migrations
                     b.HasIndex("Description")
                         .IsUnique();
 
-                    b.ToTable("ProductTypes");
+                    b.ToTable("ProdcutTypes");
                 });
 #pragma warning restore 612, 618
         }

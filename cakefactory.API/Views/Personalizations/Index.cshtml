@@ -1,4 +1,4 @@
-﻿@model IEnumerable<cakefactory.API.Data.Entities.ProductType>
+﻿@model IEnumerable<cakefactory.API.Data.Entities.Personalization>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,15 +13,16 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Tipos de Producto</h3>
+                <h3 class="panel-title">Personalizadas</h3>
             </div>
             <div class="panel-body">
                 <table class="table table-hover table-responsive table-striped" id="MyTable">
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.Description)
+                                @Html.DisplayNameFor(model => model.PersoName)
                             </th>
+
                             <th></th>
                         </tr>
                     </thead>
@@ -30,7 +31,7 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
+                                    @Html.DisplayFor(modelItem => item.PersoName)
                                 </td>
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
@@ -64,7 +65,8 @@
                 ]
             });
             // Delete item
-            sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/ProductTypes/Delete/', false);
+            sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Personalizations/Delete/', false);
         });
     </script>
 }
+

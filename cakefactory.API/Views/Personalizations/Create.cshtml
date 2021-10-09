@@ -1,4 +1,4 @@
-﻿@model cakefactory.API.Data.Entities.ProductType
+﻿@model cakefactory.API.Data.Entities.Personalization
 
 @{
     ViewData["Title"] = "Create";
@@ -6,14 +6,14 @@
 
 <h1>Crear</h1>
 
-<h4>Tipo de Producto</h4>
+<h4>Personalizado</h4>
 <hr />
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             
-             <partial name="_ProductType"/>   
+             <partial name="_Personalization"/>   
 
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />
