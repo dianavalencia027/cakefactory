@@ -13,6 +13,8 @@ namespace cakefactory.API.Data
         {
         }
 
+        public DbSet<Order> Orders { get; set; }
+
         public DbSet<Personalization> Personalizations { get; set; }
 
         public DbSet<ProductType> ProductTypes { get; set; }
