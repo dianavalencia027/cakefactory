@@ -1,9 +1,10 @@
 ﻿using cakefactory.API.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace cakefactory.API.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -21,7 +22,7 @@ namespace cakefactory.API.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<DocumentType>().HasIndex(x => x.Description).IsUnique();
-            modelBuilder.Entity<Personalization>().HasIndex(x => x.PersoName).IsUnique();
+            modelBuilder.Entity<Personalization>().HasIndex(x => x.Description).IsUnique();
             modelBuilder.Entity<ProductType>().HasIndex(x => x.Description).IsUnique();
         }
     }
