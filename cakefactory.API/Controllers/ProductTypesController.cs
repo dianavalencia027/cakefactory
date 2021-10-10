@@ -1,5 +1,6 @@
 ﻿using cakefactory.API.Data;
 using cakefactory.API.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace cakefactory.API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductTypesController : Controller
     {
         private readonly DataContext _context;

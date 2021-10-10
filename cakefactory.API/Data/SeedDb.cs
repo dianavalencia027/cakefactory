@@ -24,10 +24,10 @@ namespace cakefactory.API.Data
             await CheckDocumentTypesAsync();
             await CheckPersonalizationsAsync();
             await CheckRolesAsycn();
-            await CheckUserAsync("32568974", "Diana", "Valencia", "diana@yopmail.com", "312 871 88 89", "Calle Falsa 123", UserType.Seller);
-            await CheckUserAsync("43896523", "Bibiana", "Restrepo", "bibiana@yopmail.com", "318 123 56 89", "Carrera 74 # 89-74", UserType.Customer);
-            await CheckUserAsync("98563124", "Andres", "Monsalve", "andres@yopmail.com", "317 856 23 14", "Calle 78 #45 14", UserType.Customer);
-            await CheckUserAsync("78963587", "Diego", "Cañas", "diego@yopmail.com", "311 567 89 42", "Calle Falsa 123", UserType.Customer);
+            await CheckUserAsync("32568974", "Diana", "Valencia", "diana@yopmail.com", "312 871 88 89", "Calle Falsa 123", UserType.Admin);
+            await CheckUserAsync("43896523", "Bibiana", "Restrepo", "bibiana@yopmail.com", "318 123 56 89", "Carrera 74 # 89-74", UserType.User);
+            await CheckUserAsync("98563124", "Andres", "Monsalve", "andres@yopmail.com", "317 856 23 14", "Calle 78 #45 14", UserType.User);
+            await CheckUserAsync("78963587", "Diego", "Cañas", "diego@yopmail.com", "311 567 89 42", "Calle Falsa 123", UserType.User);
         }
 
         private async Task CheckUserAsync(string document, string firstName, string lastName, string email, string phoneNumber, string address, UserType userType)
@@ -55,8 +55,8 @@ namespace cakefactory.API.Data
 
         private async Task CheckRolesAsycn()
         {
-            await _userHelper.CheckRoleAsync(UserType.Seller.ToString());
-            await _userHelper.CheckRoleAsync(UserType.Customer.ToString());
+            await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
+            await _userHelper.CheckRoleAsync(UserType.User.ToString());
         }
 
         private async Task CheckPersonalizationsAsync()

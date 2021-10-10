@@ -8,7 +8,7 @@ namespace cakefactory.Common.Enums
 {
     public enum UserType
     {
-        Seller,
-        Customer
+        Admin,
+        User
     }
 }
