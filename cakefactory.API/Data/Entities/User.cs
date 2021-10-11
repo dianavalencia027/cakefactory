@@ -1,6 +1,7 @@
 ﻿using cakefactory.Common.Enums;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace cakefactory.API.Data.Entities
@@ -45,5 +46,7 @@ namespace cakefactory.API.Data.Entities
 
         [Display(Name = "Usuario")]
         public string FullName => $"{FirstName} {LastName}";
+
+        public ICollection<Product> Products { get; set; }
     }
 }

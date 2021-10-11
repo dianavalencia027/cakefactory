@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace cakefactory.API.Data.Entities
@@ -13,12 +14,12 @@ namespace cakefactory.API.Data.Entities
 
         [Display(Name = "Precio del producto")]
         [DisplayFormat(DataFormatString = "{0:C2}")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public decimal Cost { get; set; }
 
         [Display(Name = "Cantidad")]
         [DisplayFormat(DataFormatString = "{0:C2}")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public int Quantity { get; set; }
 
         [Display(Name = "Valor a pagar")]

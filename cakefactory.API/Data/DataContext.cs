@@ -16,6 +16,8 @@ namespace cakefactory.API.Data
 
         public DbSet<Personalization> Personalizations { get; set; }
 
+        public DbSet<Product> Products { get; set; }
+
         public DbSet<ProductType> ProductTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,6 +25,7 @@ namespace cakefactory.API.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<DocumentType>().HasIndex(x => x.Description).IsUnique();
             modelBuilder.Entity<Personalization>().HasIndex(x => x.Description).IsUnique();
+            modelBuilder.Entity<Product>().HasIndex(x => x.ProductName).IsUnique();
             modelBuilder.Entity<ProductType>().HasIndex(x => x.Description).IsUnique();
         }
     }
