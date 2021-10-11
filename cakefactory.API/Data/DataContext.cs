@@ -12,6 +12,8 @@ namespace cakefactory.API.Data
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Detail> Details { get; set; }
+
         public DbSet<DocumentType> DocumentTypes { get; set; }
 
         public DbSet<Order> Orders { get; set; }

@@ -48,5 +48,7 @@ namespace cakefactory.API.Data.Entities
         public string FullName => $"{FirstName} {LastName}";
 
         public ICollection<Product> Products { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
     }
 }

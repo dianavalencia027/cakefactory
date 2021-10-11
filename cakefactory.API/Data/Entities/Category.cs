@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace cakefactory.API.Data.Entities
 {
@@ -14,5 +15,7 @@ namespace cakefactory.API.Data.Entities
         [Display(Name = "Descripción del producto")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+
+        public ICollection<Detail> Details { get; set; }
     }
 }
