@@ -50,5 +50,8 @@ namespace cakefactory.API.Data.Entities
         public ICollection<Product> Products { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+
+        [Display(Name = "# Productos")]
+        public int ProductsCount => Products == null ? 0 : Products.Count;
     }
 }
