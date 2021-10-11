@@ -17,5 +17,9 @@ namespace cakefactory.API.Data.Entities
         public int CategoryId { get; set; }
 
         public ICollection<Product> Products { get; set; }
+
+        public ICollection<PhotoCatalog> PhotoCatalogs { get; set; }
+
+        public ICollection<Category> Categories { get; set; }
     }
 }
