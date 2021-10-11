@@ -42,6 +42,17 @@ namespace cakefactory.API.Data.Entities
         [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Description { get; set; }
+
+        public ICollection<PhotoCatalog> PhotoCatalogs { get; set; }
+
+        [Display(Name = "# Fotos")]
+        public int PhotoCatalogsCount => PhotoCatalogs == null ? 0 : PhotoCatalogs.Count;
+
+        //TODO: Fix the correct path
+        [Display(Name = "Foto")]
+        public string ImageFullPath => PhotoCatalogs == null || PhotoCatalogs.Count == 0
+            ? $"https://localhost:44306/images/noimage.png"
+            : PhotoCatalogs.FirstOrDefault().ImageFullPath;
     }
 }
 

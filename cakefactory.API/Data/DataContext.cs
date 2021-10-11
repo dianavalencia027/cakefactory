@@ -16,6 +16,8 @@ namespace cakefactory.API.Data
 
         public DbSet<Personalization> Personalizations { get; set; }
 
+        public DbSet<PhotoCatalog> PhotoCatalogs { get; set; }
+
         public DbSet<Product> Products { get; set; }
 
         public DbSet<ProductType> ProductTypes { get; set; }
