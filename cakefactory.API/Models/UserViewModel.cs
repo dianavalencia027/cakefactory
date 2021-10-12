@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace cakefactory.API.Models
 {
-    public class UserViewModel : User
+    public class UserViewModel
     {
         public string Id { get; set; }
 
@@ -34,10 +34,12 @@ namespace cakefactory.API.Models
 
         [Display(Name = "Dirección")]
         [MaxLength(100, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Address { get; set; }
 
         [Display(Name = "Teléfono")]
         [MaxLength(20, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string PhoneNumber { get; set; }
 
         [Display(Name = "Foto")]

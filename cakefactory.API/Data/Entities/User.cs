@@ -35,11 +35,10 @@ namespace cakefactory.API.Data.Entities
         [Display(Name = "Foto")]
         public Guid ImageId { get; set; }
 
-        //TODO: Fix the images path
         [Display(Name = "Foto")]
         public string ImageFullPath => ImageId == Guid.Empty
             ? $"https://localhost:44306/images/noimage.png"
-            : $"https://vehicleszuluprep.blob.core.windows.net/users/{ImageId}";
+            : $"https://cakefactory1.blob.core.windows.net/users/{ImageId}";
 
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }
@@ -50,8 +49,5 @@ namespace cakefactory.API.Data.Entities
         public ICollection<Product> Products { get; set; }
 
         public ICollection<Order> Orders { get; set; }
-
-        [Display(Name = "# Productos")]
-        public int ProductsCount => Products == null ? 0 : Products.Count;
     }
 }

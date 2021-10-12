@@ -48,7 +48,6 @@ namespace cakefactory.API.Data.Entities
         [Display(Name = "# Fotos")]
         public int PhotoCatalogsCount => PhotoCatalogs == null ? 0 : PhotoCatalogs.Count;
 
-        //TODO: Fix the correct path
         [Display(Name = "Foto")]
         public string ImageFullPath => PhotoCatalogs == null || PhotoCatalogs.Count == 0
             ? $"https://localhost:44306/images/noimage.png"

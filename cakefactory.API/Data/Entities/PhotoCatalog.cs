@@ -15,10 +15,9 @@ namespace cakefactory.API.Data.Entities
 
         public int ProductId { get; set; }
 
-        //TODO: Fix the correct path
         [Display(Name = "Foto")]
         public string ImageFullPath => ImageId == Guid.Empty
             ? $"https://localhost:44306/images/noimage.png"
-            : $"https://vehicleszuluprep.blob.core.windows.net/products/{ImageId}";
+            : $"https://cakefactory1.blob.core.windows.net/products/{ImageId}";
     }
 }
