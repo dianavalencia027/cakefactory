@@ -136,5 +136,26 @@ namespace cakefactory.API.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Details(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            User user = await _context.Users
+                .Include(x => x.DocumentType)
+                .Include(x => x.Products)
+                .ThenInclude(x => x.ProductType)
+                .Include(x => x.Products)
+                .ThenInclude(x => x.PhotoCatalogs)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
     }
 }
