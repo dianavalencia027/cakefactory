@@ -21,7 +21,8 @@ namespace cakefactory.API.Controllers
         private readonly IConverterHelper _converterHelper;
         private readonly IBlobHelper _blobHelper;
 
-        public UsersController(DataContext context, IUserHelper userHelper, ICombosHelper combosHelper, IConverterHelper converterHelper, IBlobHelper blobHelper)
+        public UsersController(DataContext context, IUserHelper userHelper, ICombosHelper combosHelper, IConverterHelper converterHelper, 
+            IBlobHelper blobHelper)
         {
             _context = context;
             _userHelper = userHelper;
@@ -40,6 +41,7 @@ namespace cakefactory.API.Controllers
                 .ToListAsync());
         }
 
+
         public IActionResult Create()
         {
             UserViewModel model = new UserViewModel
@@ -49,6 +51,7 @@ namespace cakefactory.API.Controllers
 
             return View(model);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -73,5 +76,65 @@ namespace cakefactory.API.Controllers
             model.DocumentTypes = _combosHelper.GetComboDocumentTypes();
             return View(model);
         }
+
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            User user = await _userHelper.GetUserAsync(Guid.Parse(id));
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            UserViewModel model = _converterHelper.ToUserViewModel(user);
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(UserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Guid imageId = model.ImageId;
+                if (model.ImageFile != null)
+                {
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "users");
+                }
+
+                User user = await _converterHelper.ToUserAsync(model, imageId, false);
+                await _userHelper.UpdateUserAsync(user);
+                return RedirectToAction(nameof(Index));
+            }
+
+            model.DocumentTypes = _combosHelper.GetComboDocumentTypes();
+            return View(model);
+        }
+
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            User user = await _userHelper.GetUserAsync(Guid.Parse(id));
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            await _blobHelper.DeleteBlobAsync(user.ImageId, "users");
+            await _userHelper.DeleteUserAsync(user);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

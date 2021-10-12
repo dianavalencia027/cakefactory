@@ -3,6 +3,7 @@ using cakefactory.API.Data.Entities;
 using cakefactory.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
 
 namespace cakefactory.API.Helpers
@@ -14,7 +15,8 @@ namespace cakefactory.API.Helpers
         private readonly DataContext _context;
         private readonly SignInManager<User> _signInManager;
 
-        public UserHelper(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, DataContext context, SignInManager<User> signInManager)
+        public UserHelper(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, DataContext context, 
+            SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -41,11 +43,27 @@ namespace cakefactory.API.Helpers
             }
         }
 
+        public async Task<IdentityResult> DeleteUserAsync(User user)
+        {
+            return await _userManager.DeleteAsync(user);
+        }
+
         public async Task<User> GetUserAsync(string email)
         {
             return await _context.Users
                 .Include(x => x.DocumentType)
+                .Include(x => x.Products)
+                .ThenInclude(x => x.PhotoCatalogs)
                 .FirstOrDefaultAsync(x => x.Email == email);
+        }
+
+        public async Task<User> GetUserAsync(Guid id)
+        {
+            return await _context.Users
+                .Include(x => x.DocumentType)
+                .Include(x => x.Products)
+                .ThenInclude(x => x.PhotoCatalogs)
+                .FirstOrDefaultAsync(x => x.Id == id.ToString());
         }
 
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)
@@ -61,6 +79,19 @@ namespace cakefactory.API.Helpers
         public async Task LogoutAsync()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<IdentityResult> UpdateUserAsync(User user)
+        {
+            User currentUser = await GetUserAsync(user.Email);
+            currentUser.LastName = user.LastName;
+            currentUser.FirstName = user.FirstName;
+            currentUser.DocumentType = user.DocumentType;
+            currentUser.Document = user.Document;
+            currentUser.Address = user.Address;
+            currentUser.ImageId = user.ImageId;
+            currentUser.PhoneNumber = user.PhoneNumber;
+            return await _userManager.UpdateAsync(currentUser);
         }
     }
 }

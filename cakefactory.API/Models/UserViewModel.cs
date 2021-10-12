@@ -57,5 +57,10 @@ namespace cakefactory.API.Models
         public int DocumentTypeId { get; set; }
 
         public IEnumerable<SelectListItem> DocumentTypes { get; set; }
+
+        [Display(Name = "Foto")]
+        public string ImageFullPath => ImageId == Guid.Empty
+            ? $"https://localhost:44306/images/noimage.png"
+            : $"https://cakefactory1.blob.core.windows.net/users/{ImageId}";
     }
 }
